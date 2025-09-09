@@ -131,7 +131,7 @@ for i in {1..5}; do
   generate_chain_file
   archive_files
 
-  # sleep 5
+  sleep 5
 done
 
 cleanup
