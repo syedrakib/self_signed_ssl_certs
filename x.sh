@@ -10,7 +10,7 @@ function generate_root_files {
   # Private Key
   openssl genpkey \
     -algorithm "RSA" \
-    -pkeyopt "rsa_keygen_bits:4096" \
+    -pkeyopt "rsa_keygen_bits:2048" \
     -out "${ROOT}.key"
 
   # Public Cert
@@ -25,7 +25,7 @@ function generate_intermediate_files {
   # Private Key
   openssl genpkey \
     -algorithm "RSA" \
-    -pkeyopt "rsa_keygen_bits:4096" \
+    -pkeyopt "rsa_keygen_bits:2048" \
     -out "${INTERMEDIATE}.key"
 
   # CSR
@@ -51,7 +51,7 @@ function generate_server_files {
   # Private Key
   openssl genpkey \
     -algorithm "RSA" \
-    -pkeyopt "rsa_keygen_bits:4096" \
+    -pkeyopt "rsa_keygen_bits:2048" \
     -out "${SERVER}.key"
 
   # CSR
