@@ -133,7 +133,7 @@ for i in {1..5}; do
   
   SERVER="server${i}"
   CHAIN="chain${i}"
-  ARCHIVED="archived${i}"
+  ARCHIVED="archived/${i}"
 
   generate_server_files
   generate_chain_file
