@@ -8,35 +8,31 @@ source "./x.vars"
 
 function generate_root_files {
   # Private Key
-  openssl genpkey -aes256 \
+  openssl genpkey \
     -algorithm "RSA" \
     -pkeyopt "rsa_keygen_bits:4096" \
-    -out "root.key" \
-    -pass "pass:${PASSPHRASE_ROOT}"
+    -out "root.key"
 
   # Public Cert
   openssl req -x509 -new -nodes -sha256 \
     -key "${ROOT}.key" \
     -days "${DAYS_1_YEAR}" \
     -out "${ROOT}.crt" \
-    -subj "${SUBJECT_ROOT}" \
-    -passin "pass:${PASSPHRASE_ROOT}"
+    -subj "${SUBJECT_ROOT}"
 }
 
 function generate_intermediate_files {
   # Private Key
-  openssl genpkey -aes256 \
+  openssl genpkey \
     -algorithm "RSA" \
     -pkeyopt "rsa_keygen_bits:4096" \
-    -out "intermediate.key" \
-    -pass "pass:${PASSPHRASE_INTERMEDIATE}"
+    -out "intermediate.key"
 
   # CSR
   openssl req -new -sha256 \
     -key "${INTERMEDIATE}.key" \
     -out "${INTERMEDIATE}.csr" \
-    -subj "${SUBJECT_INTERMEDIATE}" \
-    -passin "pass:${PASSPHRASE_INTERMEDIATE}"
+    -subj "${SUBJECT_INTERMEDIATE}"
 
   # Extension
   echo "${EXTENSION_INTERMEDIATE}" > "${INTERMEDIATE}.ext"
@@ -48,24 +44,21 @@ function generate_intermediate_files {
     -CAkey "${ROOT}.key" \
     -out "${INTERMEDIATE}.crt" \
     -days "${DAYS_1_MONTH}" \
-    -extfile "${INTERMEDIATE}.ext" \
-    -passin "pass:${PASSPHRASE_ROOT}"
+    -extfile "${INTERMEDIATE}.ext"
 }
 
 function generate_server_files {
   # Private Key
-  openssl genpkey -aes256 \
+  openssl genpkey \
     -algorithm "RSA" \
     -pkeyopt "rsa_keygen_bits:4096" \
-    -out "${SERVER}.key" \
-    -pass "pass:${PASSPHRASE_SERVER}"
+    -out "${SERVER}.key"
 
   # CSR
   openssl req -new -sha256 \
     -key "${SERVER}.key" \
     -out "${SERVER}.csr" \
-    -subj "${SUBJECT_SERVER}" \
-    -passin "pass:${PASSPHRASE_SERVER}"
+    -subj "${SUBJECT_SERVER}"
 
   # Extension
   echo "${EXTENSION_SERVER}" > "${SERVER}.ext"
@@ -77,8 +70,7 @@ function generate_server_files {
     -CAkey "${INTERMEDIATE}.key" \
     -out "${SERVER}.crt" \
     -days "${DAYS_1_WEEK}" \
-    -extfile "${SERVER}.ext" \
-    -passin "pass:${PASSPHRASE_INTERMEDIATE}"
+    -extfile "${SERVER}.ext"
 
   verify_certs
 }
