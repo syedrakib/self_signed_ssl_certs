@@ -11,7 +11,7 @@ function generate_root_files {
   openssl genpkey \
     -algorithm "RSA" \
     -pkeyopt "rsa_keygen_bits:4096" \
-    -out "root.key"
+    -out "${ROOT}.key"
 
   # Public Cert
   openssl req -x509 -new -nodes -sha256 \
@@ -26,7 +26,7 @@ function generate_intermediate_files {
   openssl genpkey \
     -algorithm "RSA" \
     -pkeyopt "rsa_keygen_bits:4096" \
-    -out "intermediate.key"
+    -out "${INTERMEDIATE}.key"
 
   # CSR
   openssl req -new -sha256 \
