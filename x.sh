@@ -128,7 +128,7 @@ for (( i = 1; i <= NUM_OF_CERTS; i++ )); do
   
   SERVER="server${i}"
   CHAIN="chain${i}"
-  ARCHIVED="archived/${i}"
+  ARCHIVED="archived/${TIMESTAMP}/${i}"
 
   generate_server_files
   generate_chain_file
