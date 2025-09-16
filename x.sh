@@ -99,6 +99,8 @@ function archive_files {
     "./${SERVER}.ext"
   
   rm -f "./${CHAIN}.crt"
+
+  echo -e "Archived into '${BOLD}${UNDERLINE}./${ARCHIVED}/${NO_COLOR}'\n"
 }
 
 function cleanup {
