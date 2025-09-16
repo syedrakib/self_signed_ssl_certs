@@ -122,6 +122,9 @@ generate_intermediate_files
 
 for i in {1..5}; do
   i=$(printf "%02d\n" "$i")
+
+  # Sleep a few seconds to create distinct timestamps on the certificates
+  sleep ${SLEEP_SECONDS}
   
   SERVER="server${i}"
   CHAIN="chain${i}"
@@ -130,8 +133,6 @@ for i in {1..5}; do
   generate_server_files
   generate_chain_file
   archive_files
-
-  sleep 5
 done
 
 cleanup
