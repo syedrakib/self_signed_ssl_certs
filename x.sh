@@ -120,7 +120,7 @@ function cleanup {
 generate_root_files
 generate_intermediate_files
 
-for i in {1..5}; do
+for (( i = 1; i <= NUM_OF_CERTS; i++ )); do
   i=$(printf "%02d\n" "$i")
 
   # Sleep a few seconds to create distinct timestamps on the certificates
