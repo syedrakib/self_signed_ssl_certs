@@ -141,11 +141,18 @@ cleanup
 
 ############################### Other Helpers ################################
 
-function see_cert_contents {
-  openssl x509 -in your_certificate.crt -text -noout
+function cert_contents_text {
+  CERT_FILE_PATH="${1}"
+  openssl x509 -in "${CERT_FILE_PATH}" -text -noout
+}
+
+function extract_public_key_from_cert {
+  CERT_FILE_PATH="${1}"
+  openssl x509 -in "${CERT_FILE_PATH}" -pubkey -noout
 }
 
 function extract_spki_from_cert {
+  CERT_FILE_PATH="${1}"
   # The SPKI (Subject Public Key Info) is a specific section of data located inside a certificate.
   # Every single certificate (in a chain of certificates) has its own unique SPKI.
   # 
@@ -156,7 +163,7 @@ function extract_spki_from_cert {
   # Inside any X.509 certificate, there are many fields: the issuer, the expiration
   # date, the domain name, etc. The SPKI is simply the field that holds the cryptographic 
   # public key itself, along with the algorithm used to create it (like RSA or ECDSA).
-  openssl x509 -in your_certificate.crt -pubkey -noout \
+  extract_public_key_portion "${CERT_FILE_PATH}" \
     | openssl pkey -pubin -outform der \
     | openssl dgst -sha256 -binary \
     | openssl base64
