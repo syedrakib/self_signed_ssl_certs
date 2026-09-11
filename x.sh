@@ -138,3 +138,26 @@ for (( i = 1; i <= NUM_OF_CERTS; i++ )); do
 done
 
 cleanup
+
+############################### Other Helpers ################################
+
+function see_cert_contents {
+  openssl x509 -in your_certificate.crt -text -noout
+}
+
+function extract_spki_from_cert {
+  # The SPKI (Subject Public Key Info) is a specific section of data located inside a certificate.
+  # Every single certificate (in a chain of certificates) has its own unique SPKI.
+  # 
+  # LEAF_CERT contains an SPKI (This is your server's public key).
+  # INTERMEDIATE_CERT contains an SPKI (This is GoDaddy's intermediate public key).
+  # ROOT_CERT contains an SPKI (This is GoDaddy's root public key).
+  #
+  # Inside any X.509 certificate, there are many fields: the issuer, the expiration
+  # date, the domain name, etc. The SPKI is simply the field that holds the cryptographic 
+  # public key itself, along with the algorithm used to create it (like RSA or ECDSA).
+  openssl x509 -in your_certificate.crt -pubkey -noout \
+    | openssl pkey -pubin -outform der \
+    | openssl dgst -sha256 -binary \
+    | openssl base64
+}
