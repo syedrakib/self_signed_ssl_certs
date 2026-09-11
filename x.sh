@@ -163,8 +163,23 @@ function extract_spki_from_cert {
   # Inside any X.509 certificate, there are many fields: the issuer, the expiration
   # date, the domain name, etc. The SPKI is simply the field that holds the cryptographic 
   # public key itself, along with the algorithm used to create it (like RSA or ECDSA).
-  extract_public_key_portion "${CERT_FILE_PATH}" \
+
+  extract_public_key_from_cert "${CERT_FILE_PATH}" \
     | openssl pkey -pubin -outform der \
     | openssl dgst -sha256 -binary \
     | openssl base64
+  # 
+  # ☝🏼 Explanation of the above ☝🏼 
+  # 
+  # openssl x509 ... -pubkey -noout:
+  # Extracts the SPKI (the raw public key) from your certificate in plain text (PEM format).
+  # 
+  # openssl pkey -pubin -outform der: 
+  # Converts that text-based public key into raw binary (DER format).
+  # 
+  # openssl dgst -sha256 -binary:
+  # Generates a cryptographic SHA-256 hash of the binary public key.
+  # 
+  # openssl base64: 
+  # Encodes the resulting hash into a readable Base64 string that you can easily copy and paste into your application code.
 }
